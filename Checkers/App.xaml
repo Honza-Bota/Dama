@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:Checkers"
              StartupUri="Lobby.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <BitmapImage x:Key="kamen-red" UriSource="Images\kamen-red.png"/>
+            <BitmapImage x:Key="kamen-blue" UriSource="Images\kamen-blue.png"/>
+            <BitmapImage x:Key="kamen-red-queen" UriSource="Images\kamen-red-queen.png"/>
+            <BitmapImage x:Key="kamen-blue-queen" UriSource="Images\kamen-red-queen.png"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

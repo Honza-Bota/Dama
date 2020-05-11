@@ -12,21 +12,22 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace Checkers
 {
     /// <summary>
     /// Interakční logika pro Window1.xaml
     /// </summary>
-    /// 
 
     #region Úkoly
     // dodělat více tahů kamenem
     // zprovoznit dámu
-    // zprovoznit github
-    // implementovat testy
+    // implementovat testy (3)
     // dodělat AI
     // dokončit zbylé funkce
+    // implementace resources na queen
+    // update na github
     #endregion
 
     public partial class Window1 : Window
@@ -99,30 +100,30 @@ namespace Checkers
 
                     #region Pokusy s více tahy
                     /////////////////////
-                    if (validace)
-                    {
-                        Rectangle pole2 = new Rectangle();
-                        Rectangle pole3 = new Rectangle();
-                        int posun = barva == "Red" ? -2 : 2;
+                    //if (validace)
+                    //{
+                    //    Rectangle pole2 = new Rectangle();
+                    //    Rectangle pole3 = new Rectangle();
+                    //    int posun = barva == "Red" ? -2 : 2;
 
-                        Grid.SetRow(pole2, Grid.GetRow(pole) + posun);
-                        Grid.SetColumn(pole2, Grid.GetColumn(pole) + 2);
+                    //    Grid.SetRow(pole2, Grid.GetRow(pole) + posun);
+                    //    Grid.SetColumn(pole2, Grid.GetColumn(pole) + 2);
 
-                        Grid.SetRow(pole3, Grid.GetRow(pole) + posun);
-                        Grid.SetColumn(pole3, Grid.GetColumn(pole) - 2);
+                    //    Grid.SetRow(pole3, Grid.GetRow(pole) + posun);
+                    //    Grid.SetColumn(pole3, Grid.GetColumn(pole) - 2);
 
-                        novyRow = Grid.GetRow(pole2);
-                        novyColum = Grid.GetColumn(pole3);
+                    //    novyRow = Grid.GetRow(pole2);
+                    //    novyColum = Grid.GetColumn(pole3);
 
-                        if (ValidaceSkoku(vybranyKamen, pole2, barva))
-                        {
-                            MessageBox.Show("zprava");
-                        } 
-                        else if (ValidaceSkoku(vybranyKamen, pole3, barva))
-                        {
-                            MessageBox.Show("zleva");
-                        }
-                    }
+                    //    if (ValidaceSkoku(vybranyKamen, pole2, barva))
+                    //    {
+                    //        MessageBox.Show("zprava");
+                    //    } 
+                    //    else if (ValidaceSkoku(vybranyKamen, pole3, barva))
+                    //    {
+                    //        MessageBox.Show("zleva");
+                    //    }
+                    //}
                     /////////////////
                     #endregion
 
@@ -356,15 +357,15 @@ namespace Checkers
             {
                 vybranyKamen.Content = new Image
                 {
-                    Source = new BitmapImage(new Uri("F:/MVOP - PVA/Závěrečný projekt/Projekt/Checkers/bin/Debug/img/kamen-red-queen.png"))
+                    Source = new BitmapImage(new Uri("../../Images/kamen-red-queen.png", UriKind.Relative))
                 };
-                vybranyKamen.Tag = "queen";
+                vybranyKamen.Tag = "queen";  
             }
             if (barva == "Blue" && Grid.GetRow(vybranyKamen) == 8 && vybranyKamen.Tag.ToString() != "queen")
             {
                 vybranyKamen.Content = new Image
                 {
-                    Source = new BitmapImage(new Uri("F:/MVOP - PVA/Závěrečný projekt/Projekt/Checkers/bin/Debug/img/kamen-blue-queen.png"))
+                    Source = new BitmapImage(new Uri("../../Images/kamen-blue-queen.png", UriKind.Relative))
                 };
                 vybranyKamen.Tag = "queen";
             }
