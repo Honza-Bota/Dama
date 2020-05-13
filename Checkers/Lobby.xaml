@@ -9,11 +9,10 @@
         MinHeight="450"
         MinWidth="800" 
         MaxHeight="450"
-        MaxWidth="800"
-        WindowStyle="ToolWindow" 
+        MaxWidth="800" 
         BorderThickness="0" 
         WindowStartupLocation="CenterScreen" 
-        Cursor="Arrow" Icon="Images/kamen-red-queen.png">
+        Cursor="Arrow" Icon="Images/kamen-red-queen.png" WindowStyle="ToolWindow">
 
     <Grid>
         <Grid.Background>
@@ -91,6 +90,15 @@
                 </RadialGradientBrush>
             </Button.Background>
         </Button>
+        <Button x:Name="ButKonec" Content="Ukončit" Grid.Row="6" Grid.Column="1" Margin="5" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" Click="ButKonec_Click">
+            <Button.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="#FFBFBFBF" Offset="1"/>
+                </RadialGradientBrush>
+            </Button.Background>
+        </Button>
+
 
         <Button x:Name="ButNastaveniHrac1" Content="Nastavení" Grid.Row="6" Grid.Column="0" Margin="80,10,80,13" FontWeight="Bold" BorderThickness="2" Cursor="Hand" IsEnabled="False" Click="ButNastaveniHrac1_Click"/>
         <Button x:Name="ButNastaveniHrac2" Content="Nastavení" Grid.Row="6" Grid.Column="2" Margin="80,10,80,13" FontWeight="Bold" BorderThickness="2" Cursor="Hand" IsEnabled="False" Click="ButNastaveniHrac2_Click"/>

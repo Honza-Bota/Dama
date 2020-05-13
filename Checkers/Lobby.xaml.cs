@@ -25,6 +25,11 @@ namespace Checkers
             InitializeComponent();
         }
 
+        private void ButKonec_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
         private void ButNapoveda_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Nápověda není v této verzi k dispozici!","Informace",MessageBoxButton.OK,MessageBoxImage.Information,MessageBoxResult.OK,MessageBoxOptions.ServiceNotification);
