@@ -46,7 +46,7 @@ namespace Checkers
 
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
-            timer.Start();
+            timer.Start(); 
 
             labelHrac1veHre.Content = Reds.Count;
             labelHrac2veHre.Content = Blues.Count;
@@ -440,7 +440,13 @@ namespace Checkers
                 for (int i = 0; i < Reds.Count; i++)
                 {
                     Point kamenNepritel = new Point(Grid.GetColumn(Reds[i]), Grid.GetRow(Reds[i]));
-                    if (barva == "Blue" && kamenNepritel.Y == poziceStart.Y + 1 && (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) && poziceCíl.Y == kamenNepritel.Y + 1 && (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
+
+                    if (barva == "Blue" &&
+                        poziceStart.X != poziceCíl.X &&
+                        kamenNepritel.Y == poziceStart.Y + 1 && 
+                        (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) && 
+                        poziceCíl.Y == kamenNepritel.Y + 1 && 
+                        (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
                     {
                         Vymazat(vybranyKamen, pole);
                         return true;
@@ -449,7 +455,13 @@ namespace Checkers
                 for (int i = 0; i < Blues.Count; i++)
                 {
                     Point kamenNepritel = new Point(Grid.GetColumn(Blues[i]), Grid.GetRow(Blues[i]));
-                    if (barva == "Red" && kamenNepritel.Y == poziceStart.Y - 1 && (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) && poziceCíl.Y == kamenNepritel.Y - 1 && (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
+
+                    if (barva == "Red" &&
+                        poziceStart.X != poziceCíl.X &&
+                        kamenNepritel.Y == poziceStart.Y - 1 && 
+                        (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) && 
+                        poziceCíl.Y == kamenNepritel.Y - 1 && 
+                        (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
                     {
                         Vymazat(vybranyKamen, pole);
                         return true;

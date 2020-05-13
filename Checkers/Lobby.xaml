@@ -13,7 +13,7 @@
         WindowStyle="ToolWindow" 
         BorderThickness="0" 
         WindowStartupLocation="CenterScreen" 
-        Cursor="Arrow">
+        Cursor="Arrow" Icon="Images/kamen-red-queen.png">
 
     <Grid>
         <Grid.Background>

@@ -11,7 +11,7 @@
         WindowStyle="ToolWindow" 
         BorderThickness="0" 
         WindowStartupLocation="CenterScreen" 
-        Cursor="Arrow">
+        Cursor="Arrow" Icon="Images/kamen-red-queen.png">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FFD3D1FF" Offset="0"/>
