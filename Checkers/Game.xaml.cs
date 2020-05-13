@@ -21,9 +21,10 @@ namespace Checkers
     /// </summary>
 
     #region Úkoly
-    // dodělat více tahů kamenem
     // zprovoznit dámu
     // implementovat testy (3)
+    // dodělat více tahů kamenem
+    // oběktově orientovaný kód
     // dodělat AI
     // dokončit zbylé funkce
     // update na github
@@ -367,13 +368,35 @@ namespace Checkers
             Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
             Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
 
+            bool mozno = false;
+
+            foreach (Button item in Reds)
+            {
+                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                if (p == poziceCíl)
+                {
+                    mozno = false;
+                    return mozno;
+                }
+            }
+
+            foreach (Button item in Blues)
+            {
+                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                if (p == poziceCíl)
+                {
+                    mozno = false;
+                    return mozno;
+                }
+            }
 
             if (Math.Abs(poziceCíl.Y - poziceStart.Y) == 1 &&
                 poziceCíl.Y < poziceStart.Y && 
                 barva == "Red" && 
                 (poziceCíl.X - 1 == poziceStart.X || poziceCíl.X + 1 == poziceStart.X))
                  {
-                    return true;
+                    mozno = true;
+                    return mozno;
                  }
 
             else if (Math.Abs(poziceCíl.Y - poziceStart.Y) == 1 && 
@@ -381,12 +404,14 @@ namespace Checkers
                 barva == "Blue" && 
                 (poziceCíl.X - 1 == poziceStart.X || poziceCíl.X + 1 == poziceStart.X))
                  {
-                    return true;
-                 }
+                    mozno = true;
+                    return mozno;
+            }
 
             else
             {
-                return false;
+                mozno = false;
+                return mozno;
             }
         }
 
@@ -467,7 +492,7 @@ namespace Checkers
             }
             else
             {
-                MessageBox.Show("Na řadě je modrý hráč!", "Varování", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Na řadě je modrý hráč!", "Varování", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -479,7 +504,7 @@ namespace Checkers
             }
             else
             {
-                MessageBox.Show("Na řadě je červený hráč!", "Varování", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Na řadě je červený hráč!", "Varování", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

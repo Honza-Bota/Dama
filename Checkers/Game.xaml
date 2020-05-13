@@ -584,77 +584,77 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <Button x:Name="Red_Kamen_01" Width="60" Height="60" Grid.Row="8" Grid.Column="1" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_01" Grid.Row="8" Grid.Column="1" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_01_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_02" Width="60" Height="60" Grid.Row="8" Grid.Column="3" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_02" Grid.Row="8" Grid.Column="3" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_02_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_03" Width="60" Height="60" Grid.Row="8" Grid.Column="5" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_03" Grid.Row="8" Grid.Column="5" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_03_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_04" Width="60" Height="60" Grid.Row="8" Grid.Column="7" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_04" Grid.Row="8" Grid.Column="7" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_04_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_05" Width="60" Height="60" Grid.Row="7" Grid.Column="2" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_05" Grid.Row="7" Grid.Column="2" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_05_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_06" Width="60" Height="60" Grid.Row="7" Grid.Column="4" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_06" Grid.Row="7" Grid.Column="4" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_06_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_07" Width="60" Height="60" Grid.Row="7" Grid.Column="6" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_07" Grid.Row="7" Grid.Column="6" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_07_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_08" Width="60" Height="60" Grid.Row="7" Grid.Column="8" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_08" Grid.Row="7" Grid.Column="8" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_08_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_09" Width="60" Height="60" Grid.Row="6" Grid.Column="1" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_09" Grid.Row="6" Grid.Column="1" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_09_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_10" Width="60" Height="60" Grid.Row="6" Grid.Column="3" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_10" Grid.Row="6" Grid.Column="3" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_10_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_11" Width="60" Height="60" Grid.Row="6" Grid.Column="5" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_11" Grid.Row="6" Grid.Column="5" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_11_img" Source="{StaticResource kamen-red}" />
             </Button>
-            <Button x:Name="Red_Kamen_12" Width="60" Height="60" Grid.Row="6" Grid.Column="7" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Red_Kamen_12" Grid.Row="6" Grid.Column="7" Cursor="Hand" Panel.ZIndex="10" Click="RedClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Red_Kamen_12_img" Source="{StaticResource kamen-red}" />
             </Button>
 
-            <Button x:Name="Blue_Kamen_01" Width="60" Height="60" Grid.Row="1" Grid.Column="2" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_01" Grid.Row="1" Grid.Column="2" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_01_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_02" Width="60" Height="60" Grid.Row="1" Grid.Column="4" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_02" Grid.Row="1" Grid.Column="4" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_02_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_03" Width="60" Height="60" Grid.Row="1" Grid.Column="6" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_03" Grid.Row="1" Grid.Column="6" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_03_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_04" Width="60" Height="60" Grid.Row="1" Grid.Column="8" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_04" Grid.Row="1" Grid.Column="8" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_04_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_05" Width="60" Height="60" Grid.Row="2" Grid.Column="1" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_05" Grid.Row="2" Grid.Column="1" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_05_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_06" Width="60" Height="60" Grid.Row="2" Grid.Column="3" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_06" Grid.Row="2" Grid.Column="3" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_06_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_07" Width="60" Height="60" Grid.Row="2" Grid.Column="5" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_07" Grid.Row="2" Grid.Column="5" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_07_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_08" Width="60" Height="60" Grid.Row="2" Grid.Column="7" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_08" Grid.Row="2" Grid.Column="7" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_08_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_09" Width="60" Height="60" Grid.Row="3" Grid.Column="2" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_09" Grid.Row="3" Grid.Column="2" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_09_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_10" Width="60" Height="60" Grid.Row="3" Grid.Column="4" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_10" Grid.Row="3" Grid.Column="4" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_10_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_11" Width="60" Height="60" Grid.Row="3" Grid.Column="6" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_11" Grid.Row="3" Grid.Column="6" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_11_img" Source="{StaticResource kamen-blue}" />
             </Button>
-            <Button x:Name="Blue_Kamen_12" Width="60" Height="60" Grid.Row="3" Grid.Column="8" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
+            <Button x:Name="Blue_Kamen_12" Grid.Row="3" Grid.Column="8" Cursor="Hand" Panel.ZIndex="10" Click="BlueClick" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Tag="kamen">
                 <Image x:Name="Blue_Kamen_12_img" Source="{StaticResource kamen-blue}" />
             </Button>
 
