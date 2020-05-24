@@ -21,23 +21,25 @@ namespace Checkers
     /// </summary>
 
     #region Úkoly
-    // zprovoznit dámu
+    // zprovoznit dámu (krok/skok)
     // implementovat testy (3)
+    //
     // dodělat více tahů kamenem
     // oběktově orientovaný kód
+    // update na github
+    //
     // dodělat AI
     // dokončit zbylé funkce
-    // update na github
     #endregion
 
     public partial class Window1 : Window
     {
         Button vybranyKamen = null;
         int kolo = 0;
-        List<Button> Reds = new List<Button>();
-        List<Button> Blues = new List<Button>();
+        public List<Button> Reds = new List<Button>();
+        public List<Button> Blues = new List<Button>();
         DispatcherTimer timer = new DispatcherTimer();
-        TimeSpan stopky = new TimeSpan();
+        public TimeSpan stopky = new TimeSpan();
 
         public Window1()
         {
@@ -54,19 +56,19 @@ namespace Checkers
             labelHrac2vyrazeno.Content = 12 - Blues.Count;
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        public void timer_Tick(object sender, EventArgs e)
         {
             labelCasUkazatel.Content = stopky;
             stopky += TimeSpan.FromSeconds(1);
         }
 
-        private void ButKonec_Click(object sender, RoutedEventArgs e)
+        public void ButKonec_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBoxResult.OK == MessageBox.Show("Opravdu chcete hru ukončit?", "Dotaz", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification))
                 this.Close();
         }
 
-        private void KamenClick(object sender)
+        public void KamenClick(object sender)
         {
             try { vybranyKamen.Background = null; }
             catch (Exception) { }
@@ -74,14 +76,14 @@ namespace Checkers
             vybranyKamen.Background = Brushes.LimeGreen;
         }
 
-        private void Posun(Rectangle pole)
+        public void Posun(Rectangle pole)
         {
             if (vybranyKamen != null)
             {
                 string barva = vybranyKamen.Name.Split('_')[0];
 
                 if (//ValidaceSkokuDama(vybranyKamen, pole, barva) ||
-                    //ValidaceKrokuDama(vybranyKamen,pole,barva) || 
+                    ValidaceKrokuDama(vybranyKamen,pole,barva) || 
                     ValidaceSkoku(vybranyKamen, pole, barva) ||
                     ValidaceKroku(vybranyKamen, pole, barva))
                 {
@@ -140,7 +142,7 @@ namespace Checkers
             }
         }
 
-        private void Info()
+        public void Info()
         {
             labelHrac1veHre.Content = Reds.Count;
             labelHrac2veHre.Content = Blues.Count;
@@ -159,7 +161,7 @@ namespace Checkers
             }
         }
 
-        private void Log(Button kamen, Rectangle pole, string barva)
+        public void Log(Button kamen, Rectangle pole, string barva)
         {
             int puvodniRow = Grid.GetRow(vybranyKamen);
             int puvodniColum = Grid.GetColumn(vybranyKamen);
@@ -194,7 +196,7 @@ namespace Checkers
 
         }
 
-        private void Vymazat(Button kamen, Rectangle pole)
+        public void Vymazat(Button kamen, Rectangle pole)
         {
             Point skoceny;
 
@@ -229,7 +231,7 @@ namespace Checkers
 
         }
 
-        private bool ValidaceSkokuDama(Button kamen, Rectangle pole, string barva)
+        public bool ValidaceSkokuDama(Button kamen, Rectangle pole, string barva)
         {
             Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
             Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
@@ -249,21 +251,42 @@ namespace Checkers
 
         }
 
-        private bool ValidaceKrokuDama(Button kamen, Rectangle pole, string barva)
+        public bool ValidaceKrokuDama(Button kamen, Rectangle pole, string barva)
         {
             Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
             Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
 
-            bool volno = true;
+            bool volno = false;
+            bool mozno = true;
+
+            foreach (Button item in Reds)
+            {
+                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                if (p == poziceCíl)
+                {
+                    mozno = false;
+                }
+            }
+            foreach (Button item in Blues)
+            {
+                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                if (p == poziceCíl)
+                {
+                    mozno = false;
+                }
+            }
 
             if (kamen.Tag.ToString() == "queen" &&
+                mozno &&
                 Math.Abs(poziceStart.X - poziceCíl.X) == Math.Abs(poziceStart.Y - poziceCíl.Y)) //ověření pohybu po diagonále
             {
-                int vzdalenost = Convert.ToInt32(poziceCíl.X - poziceCíl.X); //vzdálenost o jakou se chce posunout
+                int vzdalenost = Convert.ToInt32(Math.Abs(poziceCíl.X - poziceStart.X)); //vzdálenost o jakou se chce posunout
+                volno = true;
+                //MessageBox.Show("Královna" + volno);
 
                 if (poziceCíl.Y < poziceStart.Y && poziceCíl.X < poziceStart.X) //zda se posouvá nahoru doleva
                 {
-                    for (int i = 0; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
+                    for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
                     {
                         foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
                         {
@@ -271,7 +294,6 @@ namespace Checkers
                             if (p.X == poziceStart.X - i && p.Y == poziceStart.Y - i) //kontrola zda je kamen na cíli nebo na trae
                             {
                                 volno = false;
-                                return volno;
                             }
                         }
                         foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
@@ -280,14 +302,15 @@ namespace Checkers
                             if (p.X == poziceStart.X - i && p.Y == poziceStart.Y - i)
                             {
                                 volno = false;
-                                return volno;
                             }
                         }
                     }
+                    //MessageBox.Show("LevoHore " + volno);
+
                 }
-                if (poziceCíl.Y < poziceStart.Y && poziceCíl.X > poziceStart.X) //zda se posouvá nahoru doprava
+                else if (poziceCíl.Y < poziceStart.Y && poziceCíl.X > poziceStart.X) //zda se posouvá nahoru doprava
                 {
-                    for (int i = 0; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
+                    for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
                     {
                         foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
                         {
@@ -295,7 +318,6 @@ namespace Checkers
                             if (p.X == poziceStart.X - i && p.Y == poziceStart.Y + i) //kontrola zda je kamen na cíli nebo na trae
                             {
                                 volno = false;
-                                return volno;
                             }
                         }
                         foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
@@ -304,14 +326,15 @@ namespace Checkers
                             if (p.X == poziceStart.X - i && p.Y == poziceStart.Y + i)
                             {
                                 volno = false;
-                                return volno;
                             }
                         }
                     }
+                    //MessageBox.Show("PravoHore " + volno);
+
                 }
-                if (poziceCíl.Y > poziceStart.Y && poziceCíl.X < poziceStart.X) //zda se posouvá dolů doleva
+                else if (poziceCíl.Y > poziceStart.Y && poziceCíl.X < poziceStart.X) //zda se posouvá dolů doleva
                 {
-                    for (int i = 0; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
+                    for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
                     {
                         foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
                         {
@@ -319,7 +342,6 @@ namespace Checkers
                             if (p.X == poziceStart.X + i && p.Y == poziceStart.Y - i) //kontrola zda je kamen na cíli nebo na trae
                             {
                                 volno = false;
-                                return volno;
                             }
                         }
                         foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
@@ -328,14 +350,15 @@ namespace Checkers
                             if (p.X == poziceStart.X + i && p.Y == poziceStart.Y - i)
                             {
                                 volno = false;
-                                return volno;
                             }
                         }
                     }
+                    //MessageBox.Show("LevoDole " + volno);
+
                 }
-                if (poziceCíl.Y > poziceStart.Y && poziceCíl.X > poziceStart.X) //zda se posouvá dolů doprava
+                else if (poziceCíl.Y > poziceStart.Y && poziceCíl.X > poziceStart.X) //zda se posouvá dolů doprava
                 {
-                    for (int i = 0; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
+                    for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
                     {
                         foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
                         {
@@ -343,7 +366,6 @@ namespace Checkers
                             if (p.X == poziceStart.X + i && p.Y == poziceStart.Y + i) //kontrola zda je kamen na cíli nebo na trae
                             {
                                 volno = false;
-                                return volno;
                             }
                         }
                         foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
@@ -352,18 +374,17 @@ namespace Checkers
                             if (p.X == poziceStart.X + i && p.Y == poziceStart.Y + i)
                             {
                                 volno = false;
-                                return volno;
                             }
                         }
                     }
+                    //MessageBox.Show("PravoDole " + volno);
+
                 }
-
             }
-
             return volno;
         }
 
-        private bool ValidaceKroku(Button kamen, Rectangle pole, string barva)
+        public bool ValidaceKroku(Button kamen, Rectangle pole, string barva)
         {
             Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
             Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
@@ -415,7 +436,7 @@ namespace Checkers
             }
         }
 
-        private bool ValidaceSkoku(Button kamen, Rectangle pole, string barva)
+        public bool ValidaceSkoku(Button kamen, Rectangle pole, string barva)
         {
             Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
             Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
@@ -471,7 +492,7 @@ namespace Checkers
             return false;
         }
 
-        private void JeKralovna(string barva)
+        public void JeKralovna(string barva)
         {
             if (barva == "Red" && Grid.GetRow(vybranyKamen) == 1 && vybranyKamen.Tag.ToString() != "queen")
             {
@@ -491,12 +512,12 @@ namespace Checkers
             }
         }
 
-        private void PoleClick(object sender, MouseButtonEventArgs e)
+        public void PoleClick(object sender, MouseButtonEventArgs e)
         {
             Posun((Rectangle)sender);
         }
 
-        private void RedClick(object sender, RoutedEventArgs e)
+        public void RedClick(object sender, RoutedEventArgs e)
         {
             if (kolo % 2 == 0)
             {
@@ -508,7 +529,7 @@ namespace Checkers
             }
         }
 
-        private void BlueClick(object sender, RoutedEventArgs e)
+        public void BlueClick(object sender, RoutedEventArgs e)
         {
             if (kolo % 2 == 1)
             {
@@ -520,7 +541,7 @@ namespace Checkers
             }
         }
 
-        private void Zapis()
+        public void Zapis()
         {
             Reds.Add(Red_Kamen_01);
             Reds.Add(Red_Kamen_02);

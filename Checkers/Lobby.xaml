@@ -66,7 +66,7 @@
             </Ellipse.Fill>
         </Ellipse>
 
-        <Button x:Name="ButHracHrac" Content="Hráč vs Hráč" Grid.Row="3" Grid.Column="1" Margin="5" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" Click="ButHracHrac_Click">
+        <Button x:Name="ButHracHrac" Content="Hráč vs Hráč" Grid.Row="3" Grid.Column="1" Margin="5,-15,5,20" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" Click="ButHracHrac_Click">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="White" Offset="0"/>
@@ -74,7 +74,7 @@
                 </RadialGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="ButHracPc" Content="Hráč vs PC" Grid.Row="4" Grid.Column="1" Margin="5" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" Click="ButHracPc_Click" IsEnabled="False">
+        <Button x:Name="ButHracPc" Content="Hráč vs PC" Grid.Row="4" Grid.Column="1" Margin="5,-15,5,20" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" Click="ButHracPc_Click" IsEnabled="False">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="White" Offset="0"/>
@@ -82,7 +82,7 @@
                 </RadialGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="ButNapoveda" Content="Nápověda" Grid.Row="5" Grid.Column="1" Margin="5" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" IsEnabled="False" Click="ButNapoveda_Click">
+        <Button x:Name="ButNapoveda" Content="Nápověda" Grid.Row="5" Grid.Column="1" Margin="5,-15,5,20" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" IsEnabled="False" Click="ButNapoveda_Click">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="White" Offset="0"/>
@@ -90,7 +90,7 @@
                 </RadialGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="ButKonec" Content="Ukončit" Grid.Row="6" Grid.Column="1" Margin="5" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" Click="ButKonec_Click">
+        <Button x:Name="ButKonec" Content="Ukončit" Grid.Row="6" Grid.Column="1" Margin="5,-15,5,20" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" Click="ButKonec_Click">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="White" Offset="0"/>
