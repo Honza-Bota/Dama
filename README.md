@@ -1,2 +1,2 @@
-# Dama
+# Dáma
 Hra Dáma WPF
