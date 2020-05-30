@@ -16,17 +16,13 @@ using System.IO;
 
 namespace Checkers
 {
-    /// <summary>
-    /// Interakční logika pro Window1.xaml
-    /// </summary>
-
     #region Úkoly
     // zprovoznit dámu (krok/skok)
+    // oběktově orientovaný kód
     // implementovat testy (3)
+    // update na github
     //
     // dodělat více tahů kamenem
-    // oběktově orientovaný kód
-    // update na github
     //
     // dodělat AI
     // dokončit zbylé funkce
@@ -71,7 +67,9 @@ namespace Checkers
         public void KamenClick(object sender)
         {
             try { vybranyKamen.Background = null; }
-            catch (Exception) { }
+#pragma warning disable CS0168 // Proměnná je deklarovaná, ale nikdy se nepoužívá.
+            catch (Exception err) { } //zde občas nastává chyba, je zakázána pro funknost, v předchozí verzi visual studia bez problému
+#pragma warning restore CS0168 // Proměnná je deklarovaná, ale nikdy se nepoužívá.
             vybranyKamen = (Button)sender;
             vybranyKamen.Background = Brushes.LimeGreen;
         }
@@ -253,135 +251,186 @@ namespace Checkers
 
         public bool ValidaceKrokuDama(Button kamen, Rectangle pole, string barva)
         {
+
             Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
             Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
 
-            bool volno = false;
-            bool mozno = true;
+            bool mozno = false;
 
-            foreach (Button item in Reds)
+            if (vybranyKamen.Tag.ToString() == "queen")
             {
-                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                if (p == poziceCíl)
+                foreach (Button item in Reds)
+                {
+                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                    if (p == poziceCíl)
+                    {
+                        mozno = false;
+                        return mozno;
+                    }
+                }
+
+                foreach (Button item in Blues)
+                {
+                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                    if (p == poziceCíl)
+                    {
+                        mozno = false;
+                        return mozno;
+                    }
+                }
+
+                if (Math.Abs(poziceCíl.Y - poziceStart.Y) == 1 &&
+                    (poziceCíl.X - 1 == poziceStart.X || poziceCíl.X + 1 == poziceStart.X))
+                {
+                    mozno = true;
+                    return mozno;
+                }
+
+                else
                 {
                     mozno = false;
+                    return mozno;
                 }
             }
-            foreach (Button item in Blues)
+            else
             {
-                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                if (p == poziceCíl)
-                {
-                    mozno = false;
-                }
+                mozno = false;
+                return mozno;
             }
 
-            if (kamen.Tag.ToString() == "queen" &&
-                mozno &&
-                Math.Abs(poziceStart.X - poziceCíl.X) == Math.Abs(poziceStart.Y - poziceCíl.Y)) //ověření pohybu po diagonále
-            {
-                int vzdalenost = Convert.ToInt32(Math.Abs(poziceCíl.X - poziceStart.X)); //vzdálenost o jakou se chce posunout
-                volno = true;
-                //MessageBox.Show("Královna" + volno);
 
-                if (poziceCíl.Y < poziceStart.Y && poziceCíl.X < poziceStart.X) //zda se posouvá nahoru doleva
-                {
-                    for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
-                    {
-                        foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
-                        {
-                            Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item)); //konkrétní kámen
-                            if (p.X == poziceStart.X - i && p.Y == poziceStart.Y - i) //kontrola zda je kamen na cíli nebo na trae
-                            {
-                                volno = false;
-                            }
-                        }
-                        foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
-                        {
-                            Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                            if (p.X == poziceStart.X - i && p.Y == poziceStart.Y - i)
-                            {
-                                volno = false;
-                            }
-                        }
-                    }
-                    //MessageBox.Show("LevoHore " + volno);
+            #region Původní pokus
 
-                }
-                else if (poziceCíl.Y < poziceStart.Y && poziceCíl.X > poziceStart.X) //zda se posouvá nahoru doprava
-                {
-                    for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
-                    {
-                        foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
-                        {
-                            Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item)); //konkrétní kámen
-                            if (p.X == poziceStart.X - i && p.Y == poziceStart.Y + i) //kontrola zda je kamen na cíli nebo na trae
-                            {
-                                volno = false;
-                            }
-                        }
-                        foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
-                        {
-                            Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                            if (p.X == poziceStart.X - i && p.Y == poziceStart.Y + i)
-                            {
-                                volno = false;
-                            }
-                        }
-                    }
-                    //MessageBox.Show("PravoHore " + volno);
+            //    Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
+            //    Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
 
-                }
-                else if (poziceCíl.Y > poziceStart.Y && poziceCíl.X < poziceStart.X) //zda se posouvá dolů doleva
-                {
-                    for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
-                    {
-                        foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
-                        {
-                            Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item)); //konkrétní kámen
-                            if (p.X == poziceStart.X + i && p.Y == poziceStart.Y - i) //kontrola zda je kamen na cíli nebo na trae
-                            {
-                                volno = false;
-                            }
-                        }
-                        foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
-                        {
-                            Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                            if (p.X == poziceStart.X + i && p.Y == poziceStart.Y - i)
-                            {
-                                volno = false;
-                            }
-                        }
-                    }
-                    //MessageBox.Show("LevoDole " + volno);
+            //    bool volno = false;
+            //    bool mozno = true;
 
-                }
-                else if (poziceCíl.Y > poziceStart.Y && poziceCíl.X > poziceStart.X) //zda se posouvá dolů doprava
-                {
-                    for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
-                    {
-                        foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
-                        {
-                            Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item)); //konkrétní kámen
-                            if (p.X == poziceStart.X + i && p.Y == poziceStart.Y + i) //kontrola zda je kamen na cíli nebo na trae
-                            {
-                                volno = false;
-                            }
-                        }
-                        foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
-                        {
-                            Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                            if (p.X == poziceStart.X + i && p.Y == poziceStart.Y + i)
-                            {
-                                volno = false;
-                            }
-                        }
-                    }
-                    //MessageBox.Show("PravoDole " + volno);
+            //    foreach (Button item in Reds)
+            //    {
+            //        Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+            //        if (p == poziceCíl)
+            //        {
+            //            mozno = false;
+            //        }
+            //    }
+            //    foreach (Button item in Blues)
+            //    {
+            //        Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+            //        if (p == poziceCíl)
+            //        {
+            //            mozno = false;
+            //        }
+            //    }
 
-                }
-            }
-            return volno;
+            //    if (kamen.Tag.ToString() == "queen" &&
+            //        mozno &&
+            //        Math.Abs(poziceStart.X - poziceCíl.X) == Math.Abs(poziceStart.Y - poziceCíl.Y)) //ověření pohybu po diagonále
+            //    {
+            //        int vzdalenost = Convert.ToInt32(Math.Abs(poziceCíl.X - poziceStart.X)); //vzdálenost o jakou se chce posunout
+            //        volno = true;
+            //        //MessageBox.Show("Královna" + volno);
+
+            //        if (poziceCíl.Y < poziceStart.Y && poziceCíl.X < poziceStart.X) //zda se posouvá nahoru doleva
+            //        {
+            //            for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
+            //            {
+            //                foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
+            //                {
+            //                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item)); //konkrétní kámen
+            //                    if (p.X == poziceStart.X - i && p.Y == poziceStart.Y - i) //kontrola zda je kamen na cíli nebo na trae
+            //                    {
+            //                        volno = false;
+            //                    }
+            //                }
+            //                foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
+            //                {
+            //                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+            //                    if (p.X == poziceStart.X - i && p.Y == poziceStart.Y - i)
+            //                    {
+            //                        volno = false;
+            //                    }
+            //                }
+            //            }
+            //            //MessageBox.Show("LevoHore " + volno);
+
+            //        }
+            //        else if (poziceCíl.Y < poziceStart.Y && poziceCíl.X > poziceStart.X) //zda se posouvá nahoru doprava
+            //        {
+            //            for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
+            //            {
+            //                foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
+            //                {
+            //                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item)); //konkrétní kámen
+            //                    if (p.X == poziceStart.X - i && p.Y == poziceStart.Y + i) //kontrola zda je kamen na cíli nebo na trae
+            //                    {
+            //                        volno = false;
+            //                    }
+            //                }
+            //                foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
+            //                {
+            //                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+            //                    if (p.X == poziceStart.X - i && p.Y == poziceStart.Y + i)
+            //                    {
+            //                        volno = false;
+            //                    }
+            //                }
+            //            }
+            //            //MessageBox.Show("PravoHore " + volno);
+
+            //        }
+            //        else if (poziceCíl.Y > poziceStart.Y && poziceCíl.X < poziceStart.X) //zda se posouvá dolů doleva
+            //        {
+            //            for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
+            //            {
+            //                foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
+            //                {
+            //                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item)); //konkrétní kámen
+            //                    if (p.X == poziceStart.X + i && p.Y == poziceStart.Y - i) //kontrola zda je kamen na cíli nebo na trae
+            //                    {
+            //                        volno = false;
+            //                    }
+            //                }
+            //                foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
+            //                {
+            //                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+            //                    if (p.X == poziceStart.X + i && p.Y == poziceStart.Y - i)
+            //                    {
+            //                        volno = false;
+            //                    }
+            //                }
+            //            }
+            //            //MessageBox.Show("LevoDole " + volno);
+
+            //        }
+            //        else if (poziceCíl.Y > poziceStart.Y && poziceCíl.X > poziceStart.X) //zda se posouvá dolů doprava
+            //        {
+            //            for (int i = 1; i < vzdalenost; i++) //projede všechny možnosti kde můž tím směrem být
+            //            {
+            //                foreach (Button item in Reds) //projede všechny červené zda jsou na dané pozici
+            //                {
+            //                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item)); //konkrétní kámen
+            //                    if (p.X == poziceStart.X + i && p.Y == poziceStart.Y + i) //kontrola zda je kamen na cíli nebo na trae
+            //                    {
+            //                        volno = false;
+            //                    }
+            //                }
+            //                foreach (Button item in Blues) // projede všechny modré zda jsou na dané pozici
+            //                {
+            //                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+            //                    if (p.X == poziceStart.X + i && p.Y == poziceStart.Y + i)
+            //                    {
+            //                        volno = false;
+            //                    }
+            //                }
+            //            }
+            //            //MessageBox.Show("PravoDole " + volno);
+
+            //        }
+            //    }
+            //    return volno; 
+            #endregion
         }
 
         public bool ValidaceKroku(Button kamen, Rectangle pole, string barva)
