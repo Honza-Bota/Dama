@@ -17,7 +17,6 @@ using System.IO;
 namespace Checkers
 {
     #region Úkoly
-    // oběktově orientovaný kód
     // implementovat testy (3)
     // update na github
     //
@@ -30,32 +29,20 @@ namespace Checkers
 
     public partial class Window1 : Window
     {
-        Button vybranyKamen = null;
-        int kolo = 0;
-        public List<Button> Reds = new List<Button>();
-        public List<Button> Blues = new List<Button>();
-        DispatcherTimer timer = new DispatcherTimer();
-        public TimeSpan stopky = new TimeSpan();
-
         public Window1()
         {
             InitializeComponent();
-            Zapis();
+            Game.FormGame = this;
+            Game.LoadStones();
 
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += timer_Tick;
-            timer.Start(); 
+            Game.Timer.Interval = TimeSpan.FromSeconds(1);
+            Game.Timer.Tick += Game.Timer_Tick;
+            Game.Timer.Start(); 
 
-            labelHrac1veHre.Content = Reds.Count;
-            labelHrac2veHre.Content = Blues.Count;
-            labelHrac1vyrazeno.Content = 12 - Reds.Count;
-            labelHrac2vyrazeno.Content = 12 - Blues.Count;
-        }
-
-        public void timer_Tick(object sender, EventArgs e)
-        {
-            labelCasUkazatel.Content = stopky;
-            stopky += TimeSpan.FromSeconds(1);
+            labelHrac1veHre.Content = Game.Reds.Count;
+            labelHrac2veHre.Content = Game.Blues.Count;
+            labelHrac1vyrazeno.Content = 12 - Game.Reds.Count;
+            labelHrac2vyrazeno.Content = 12 - Game.Blues.Count;
         }
 
         public void ButKonec_Click(object sender, RoutedEventArgs e)
@@ -63,40 +50,77 @@ namespace Checkers
             if (MessageBoxResult.OK == MessageBox.Show("Opravdu chcete hru ukončit?", "Dotaz", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification))
                 this.Close();
         }
-
-        public void KamenClick(object sender)
+        public void PoleClick(object sender, MouseButtonEventArgs e)
         {
-            try { vybranyKamen.Background = null; }
+            Game.Move((Rectangle)sender);
+        } 
+        public void RedClick(object sender, RoutedEventArgs e)
+        {
+            if (Game.Turn % 2 == 0)
+            {
+                Game.StoneClick(sender);
+            }
+            else
+            {
+                MessageBox.Show("Na řadě je modrý hráč!", "Špatný tah", MessageBoxButton.OK);
+            }
+        } 
+        public void BlueClick(object sender, RoutedEventArgs e)
+        {
+            if (Game.Turn % 2 == 1)
+            {
+                Game.StoneClick(sender);
+            }
+            else
+            {
+                MessageBox.Show("Na řadě je červený hráč!", "Špatný tah", MessageBoxButton.OK);
+            }
+        } 
+
+    }
+
+    public class Game
+    {
+        static public Window1 FormGame { get; set; } = null;
+        static public Button SelectedStone { get; set; } = null;
+        static public List<Button> Reds { get; set; } = new List<Button>();
+        static public List<Button> Blues { get; set; } = new List<Button>();
+        static public DispatcherTimer Timer { get; set; } = new DispatcherTimer();
+        static public TimeSpan GameTime { get; set; } = new TimeSpan();
+        static public int Turn { get; set; } = 0;
+
+        static public void StoneClick(object sender)
+        {
+            try { SelectedStone.Background = null; }
 #pragma warning disable CS0168 // Proměnná je deklarovaná, ale nikdy se nepoužívá.
             catch (Exception err) { } //zde občas nastává chyba, je zakázána pro funknost, v předchozí verzi visual studia bez problému
 #pragma warning restore CS0168 // Proměnná je deklarovaná, ale nikdy se nepoužívá.
-            vybranyKamen = (Button)sender;
-            vybranyKamen.Background = Brushes.LimeGreen;
+            SelectedStone = (Button)sender;
+            SelectedStone.Background = Brushes.LimeGreen;
         }
-
-        public void Posun(Rectangle pole)
+        static public void Move(Rectangle field)
         {
-            if (vybranyKamen != null)
+            if (SelectedStone != null)
             {
-                string barva = vybranyKamen.Name.Split('_')[0];
+                string barva = SelectedStone.Name.Split('_')[0];
 
-                if (ValidaceSkokuDama(vybranyKamen, pole, barva) ||
-                    ValidaceKrokuDama(vybranyKamen,pole,barva) || 
-                    ValidaceSkoku(vybranyKamen, pole, barva) ||
-                    ValidaceKroku(vybranyKamen, pole, barva))
+                if (ValidationJumpQueen(SelectedStone, field, barva) ||
+                    ValidationMoveQueen(SelectedStone, field, barva) ||
+                    ValidationJump(SelectedStone, field, barva) ||
+                    ValidationMove(SelectedStone, field, barva))
                 {
-                    bool validace = ValidaceSkoku(vybranyKamen, pole, barva);
+                    bool validace = ValidationJump(SelectedStone, field, barva);
 
                     //int puvodniRow = Grid.GetRow(vybranyKamen);
                     //int puvodniColum = Grid.GetColumn(vybranyKamen);
 
-                    Log(pole, barva);
+                    Log(field, barva);
 
-                    int novyRow = Grid.GetRow(pole);
-                    int novyColum = Grid.GetColumn(pole);
+                    int novyRow = Grid.GetRow(field);
+                    int novyColum = Grid.GetColumn(field);
 
-                    Grid.SetRow(vybranyKamen, novyRow);
-                    Grid.SetColumn(vybranyKamen, novyColum);
+                    Grid.SetRow(SelectedStone, novyRow);
+                    Grid.SetColumn(SelectedStone, novyColum);
 
                     #region Pokusy s více tahy
                     /////////////////////
@@ -127,82 +151,27 @@ namespace Checkers
                     /////////////////
                     #endregion
 
-                    
 
-                    JeKralovna(barva);
-                    kolo++;
-                    vybranyKamen.Background = null;
-                    vybranyKamen = null;
+
+                    IsQueen(barva);
+                    Turn++;
+                    SelectedStone.Background = null;
+                    SelectedStone = null;
 
                     Info();
                 }
 
             }
         }
-
-        public void Info()
-        {
-            labelHrac1veHre.Content = Reds.Count;
-            labelHrac2veHre.Content = Blues.Count;
-            labelHrac1vyrazeno.Content = 12 - Reds.Count;
-            labelHrac2vyrazeno.Content = 12 - Blues.Count;
-
-            if (Reds.Count == 0)
-            {
-                MessageBox.Show("Vyhrál modrý!!", "Výhra", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-                this.Close();
-            }
-            else if (Blues.Count == 0)
-            {
-                MessageBox.Show("Vyhrál červený!!", "Výhra", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-                this.Close();
-            }
-        }
-
-        public void Log(Rectangle pole, string barva)
-        {
-            int puvodniRow = Grid.GetRow(vybranyKamen);
-            int puvodniColum = Grid.GetColumn(vybranyKamen);
-
-            int novyRow = Grid.GetRow(pole);
-            int novyColum = Grid.GetColumn(pole);
-
-            string puvodniRadek = "", novyRadek = "";
-
-            if (puvodniRow == 1) puvodniRadek = "H";
-            else if (puvodniRow == 2) puvodniRadek = "G";
-            else if (puvodniRow == 3) puvodniRadek = "F";
-            else if (puvodniRow == 4) puvodniRadek = "E";
-            else if (puvodniRow == 5) puvodniRadek = "D";
-            else if (puvodniRow == 6) puvodniRadek = "C";
-            else if (puvodniRow == 7) puvodniRadek = "B";
-            else if (puvodniRow == 8) puvodniRadek = "A";
-
-            if (novyRow == 1) novyRadek = "H";
-            else if (novyRow == 2) novyRadek = "G";
-            else if (novyRow == 3) novyRadek = "F";
-            else if (novyRow == 4) novyRadek = "E";
-            else if (novyRow == 5) novyRadek = "D";
-            else if (novyRow == 6) novyRadek = "C";
-            else if (novyRow == 7) novyRadek = "B";
-            else if (novyRow == 8) novyRadek = "A";
-
-            string vypis = $"{barva,-4} - {puvodniRadek}{puvodniColum} > {novyRadek}{novyColum}" + Environment.NewLine;
-
-
-            textBoxLog.Text = vypis + textBoxLog.Text;
-
-        }
-
-        public void Vymazat(Button kamen, Rectangle pole)
+        static public void Delete(Button stone, Rectangle field)
         {
             Point skoceny;
 
-            int puvodniRow = Grid.GetRow(kamen);
-            int puvodniColum = Grid.GetColumn(kamen);
+            int puvodniRow = Grid.GetRow(stone);
+            int puvodniColum = Grid.GetColumn(stone);
 
-            int novyRow = Grid.GetRow(pole);
-            int novyColum = Grid.GetColumn(pole);
+            int novyRow = Grid.GetRow(field);
+            int novyColum = Grid.GetColumn(field);
 
             //string barva = kamen.Name.Split('_')[0];
 
@@ -228,12 +197,11 @@ namespace Checkers
             }
 
         }
-
-        public bool ValidaceSkokuDama(Button kamen, Rectangle pole, string barva)
+        static public bool ValidationJumpQueen(Button stone, Rectangle field, string color)
         {
 
-            Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
-            Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
+            Point poziceStart = new Point(Grid.GetColumn(stone), Grid.GetRow(stone));
+            Point poziceCíl = new Point(Grid.GetColumn(field), Grid.GetRow(field));
 
             bool nalezeno = false;
 
@@ -250,13 +218,13 @@ namespace Checkers
             }
 
 
-            if (!nalezeno && vybranyKamen.Tag.ToString() == "queen")
+            if (!nalezeno && SelectedStone.Tag.ToString() == "queen")
             {
                 for (int i = 0; i < Reds.Count; i++)
                 {
                     Point kamenNepritel = new Point(Grid.GetColumn(Reds[i]), Grid.GetRow(Reds[i]));
 
-                    if (barva == "Blue" &&
+                    if (color == "Blue" &&
                         poziceStart.X != poziceCíl.X &&
                         Math.Abs(poziceCíl.X - poziceStart.X) == 2 &&
                         poziceCíl.Y != poziceStart.Y &&
@@ -265,7 +233,7 @@ namespace Checkers
                         (poziceCíl.Y == kamenNepritel.Y + 1 || poziceCíl.Y == kamenNepritel.Y - 1) &&
                         (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
                     {
-                        Vymazat(vybranyKamen, pole);
+                        Delete(SelectedStone, field);
                         return true;
                     }
                 }
@@ -273,32 +241,31 @@ namespace Checkers
                 {
                     Point kamenNepritel = new Point(Grid.GetColumn(Blues[i]), Grid.GetRow(Blues[i]));
 
-                    if (barva == "Red" &&
+                    if (color == "Red" &&
                         poziceStart.X != poziceCíl.X &&
                         Math.Abs(poziceCíl.X - poziceStart.X) == 2 &&
                         poziceCíl.Y != poziceStart.Y &&
-                        (kamenNepritel.Y == poziceStart.Y - 1 || kamenNepritel.Y == poziceStart.Y + 1 ) &&
+                        (kamenNepritel.Y == poziceStart.Y - 1 || kamenNepritel.Y == poziceStart.Y + 1) &&
                         (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) &&
                         (poziceCíl.Y == kamenNepritel.Y - 1 || poziceCíl.Y == kamenNepritel.Y + 1) &&
                         (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
                     {
-                        Vymazat(vybranyKamen, pole);
+                        Delete(SelectedStone, field);
                         return true;
                     }
                 }
             }
             return false;
         }
-
-        public bool ValidaceKrokuDama(Button kamen, Rectangle pole, string barva)
+        static public bool ValidationMoveQueen(Button stone, Rectangle field, string color)
         {
 
-            Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
-            Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
+            Point poziceStart = new Point(Grid.GetColumn(stone), Grid.GetRow(stone));
+            Point poziceCíl = new Point(Grid.GetColumn(field), Grid.GetRow(field));
 
             bool mozno = false;
 
-            if (vybranyKamen.Tag.ToString() == "queen")
+            if (SelectedStone.Tag.ToString() == "queen")
             {
                 foreach (Button item in Reds)
                 {
@@ -473,11 +440,10 @@ namespace Checkers
             //    return volno; 
             #endregion
         }
-
-        public bool ValidaceKroku(Button kamen, Rectangle pole, string barva)
+        static public bool ValidationMove(Button stone, Rectangle field, string color)
         {
-            Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
-            Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
+            Point poziceStart = new Point(Grid.GetColumn(stone), Grid.GetRow(stone));
+            Point poziceCíl = new Point(Grid.GetColumn(field), Grid.GetRow(field));
 
             bool mozno = false;
 
@@ -502,21 +468,21 @@ namespace Checkers
             }
 
             if (Math.Abs(poziceCíl.Y - poziceStart.Y) == 1 &&
-                poziceCíl.Y < poziceStart.Y && 
-                barva == "Red" && 
+                poziceCíl.Y < poziceStart.Y &&
+                color == "Red" &&
                 (poziceCíl.X - 1 == poziceStart.X || poziceCíl.X + 1 == poziceStart.X))
-                 {
-                    mozno = true;
-                    return mozno;
-                 }
+            {
+                mozno = true;
+                return mozno;
+            }
 
-            else if (Math.Abs(poziceCíl.Y - poziceStart.Y) == 1 && 
-                poziceCíl.Y > poziceStart.Y && 
-                barva == "Blue" && 
+            else if (Math.Abs(poziceCíl.Y - poziceStart.Y) == 1 &&
+                poziceCíl.Y > poziceStart.Y &&
+                color == "Blue" &&
                 (poziceCíl.X - 1 == poziceStart.X || poziceCíl.X + 1 == poziceStart.X))
-                 {
-                    mozno = true;
-                    return mozno;
+            {
+                mozno = true;
+                return mozno;
             }
 
             else
@@ -525,11 +491,10 @@ namespace Checkers
                 return mozno;
             }
         }
-
-        public bool ValidaceSkoku(Button kamen, Rectangle pole, string barva)
+        static public bool ValidationJump(Button stone, Rectangle field, string color)
         {
-            Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
-            Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
+            Point poziceStart = new Point(Grid.GetColumn(stone), Grid.GetRow(stone));
+            Point poziceCíl = new Point(Grid.GetColumn(field), Grid.GetRow(field));
 
             bool nalezeno = false;
 
@@ -552,14 +517,14 @@ namespace Checkers
                 {
                     Point kamenNepritel = new Point(Grid.GetColumn(Reds[i]), Grid.GetRow(Reds[i]));
 
-                    if (barva == "Blue" &&
+                    if (color == "Blue" &&
                         poziceStart.X != poziceCíl.X &&
-                        kamenNepritel.Y == poziceStart.Y + 1 && 
-                        (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) && 
-                        poziceCíl.Y == kamenNepritel.Y + 1 && 
+                        kamenNepritel.Y == poziceStart.Y + 1 &&
+                        (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) &&
+                        poziceCíl.Y == kamenNepritel.Y + 1 &&
                         (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
                     {
-                        Vymazat(vybranyKamen, pole);
+                        Delete(SelectedStone, field);
                         return true;
                     }
                 }
@@ -567,108 +532,124 @@ namespace Checkers
                 {
                     Point kamenNepritel = new Point(Grid.GetColumn(Blues[i]), Grid.GetRow(Blues[i]));
 
-                    if (barva == "Red" &&
+                    if (color == "Red" &&
                         poziceStart.X != poziceCíl.X &&
-                        kamenNepritel.Y == poziceStart.Y - 1 && 
-                        (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) && 
-                        poziceCíl.Y == kamenNepritel.Y - 1 && 
+                        kamenNepritel.Y == poziceStart.Y - 1 &&
+                        (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) &&
+                        poziceCíl.Y == kamenNepritel.Y - 1 &&
                         (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
                     {
-                        Vymazat(vybranyKamen, pole);
+                        Delete(SelectedStone, field);
                         return true;
                     }
-                } 
+                }
             }
             return false;
         }
-
-        public void JeKralovna(string barva)
+        static public void IsQueen(string color)
         {
-            if (barva == "Red" && Grid.GetRow(vybranyKamen) == 1 && vybranyKamen.Tag.ToString() != "queen")
+            if (color == "Red" && Grid.GetRow(SelectedStone) == 1 && SelectedStone.Tag.ToString() != "queen")
             {
-                vybranyKamen.Content = new Image 
+                SelectedStone.Content = new Image
                 {
                     Source = new BitmapImage(new Uri("../../Images/kamen-red-queen.png", UriKind.Relative))
                 };
-                vybranyKamen.Tag = "queen";  
+                SelectedStone.Tag = "queen";
             }
-            if (barva == "Blue" && Grid.GetRow(vybranyKamen) == 8 && vybranyKamen.Tag.ToString() != "queen")
+            if (color == "Blue" && Grid.GetRow(SelectedStone) == 8 && SelectedStone.Tag.ToString() != "queen")
             {
-                vybranyKamen.Content = new Image
+                SelectedStone.Content = new Image
                 {
                     Source = new BitmapImage(new Uri("../../Images/kamen-blue-queen.png", UriKind.Relative))
                 };
-                vybranyKamen.Tag = "queen";
+                SelectedStone.Tag = "queen";
             }
         }
 
-        public void PoleClick(object sender, MouseButtonEventArgs e)
+        static public void Timer_Tick(object sender, EventArgs e)
         {
-            Posun((Rectangle)sender);
-        } //kliknutí na cílové pole
+            FormGame.labelCasUkazatel.Content = Game.GameTime;
+            Game.GameTime += TimeSpan.FromSeconds(1);
+        }
+        static public void LoadStones()
+        {
+            Game.Reds.Add(FormGame.Red_Kamen_01);
+            Game.Reds.Add(FormGame.Red_Kamen_02);
+            Game.Reds.Add(FormGame.Red_Kamen_03);
+            Game.Reds.Add(FormGame.Red_Kamen_04);
+            Game.Reds.Add(FormGame.Red_Kamen_05);
+            Game.Reds.Add(FormGame.Red_Kamen_06);
+            Game.Reds.Add(FormGame.Red_Kamen_07);
+            Game.Reds.Add(FormGame.Red_Kamen_08);
+            Game.Reds.Add(FormGame.Red_Kamen_09);
+            Game.Reds.Add(FormGame.Red_Kamen_10);
+            Game.Reds.Add(FormGame.Red_Kamen_11);
+            Game.Reds.Add(FormGame.Red_Kamen_12);
 
-        public void RedClick(object sender, RoutedEventArgs e)
+            Game.Blues.Add(FormGame.Blue_Kamen_01);
+            Game.Blues.Add(FormGame.Blue_Kamen_02);
+            Game.Blues.Add(FormGame.Blue_Kamen_03);
+            Game.Blues.Add(FormGame.Blue_Kamen_04);
+            Game.Blues.Add(FormGame.Blue_Kamen_05);
+            Game.Blues.Add(FormGame.Blue_Kamen_06);
+            Game.Blues.Add(FormGame.Blue_Kamen_07);
+            Game.Blues.Add(FormGame.Blue_Kamen_08);
+            Game.Blues.Add(FormGame.Blue_Kamen_09);
+            Game.Blues.Add(FormGame.Blue_Kamen_10);
+            Game.Blues.Add(FormGame.Blue_Kamen_11);
+            Game.Blues.Add(FormGame.Blue_Kamen_12);
+        }
+        static public void Info()
         {
-            if (kolo % 2 == 0)
+            FormGame.labelHrac1veHre.Content = Game.Reds.Count;
+            FormGame.labelHrac2veHre.Content = Game.Blues.Count;
+            FormGame.labelHrac1vyrazeno.Content = 12 - Game.Reds.Count;
+            FormGame.labelHrac2vyrazeno.Content = 12 - Game.Blues.Count;
+
+            if (Game.Reds.Count == 0)
             {
-                KamenClick(sender);
+                MessageBox.Show("Vyhrál modrý!!", "Výhra", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                FormGame.Close();
             }
-            else
+            else if (Game.Blues.Count == 0)
             {
-                MessageBox.Show("Na řadě je modrý hráč!", "Špatný tah", MessageBoxButton.OK);
+                MessageBox.Show("Vyhrál červený!!", "Výhra", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                FormGame.Close();
             }
-        } //kliknutí na červené kameny
-
-        public void BlueClick(object sender, RoutedEventArgs e)
+        }
+        static public void Log(Rectangle field, string color)
         {
-            if (kolo % 2 == 1)
-            {
-                KamenClick(sender);
-            }
-            else
-            {
-                MessageBox.Show("Na řadě je červený hráč!", "Špatný tah", MessageBoxButton.OK);
-            }
-        } //kliknutí na modré kameny
+            int puvodniRow = Grid.GetRow(Game.SelectedStone);
+            int puvodniColum = Grid.GetColumn(Game.SelectedStone);
 
-        public void Zapis()
-        {
-            Reds.Add(Red_Kamen_01);
-            Reds.Add(Red_Kamen_02);
-            Reds.Add(Red_Kamen_03);
-            Reds.Add(Red_Kamen_04);
-            Reds.Add(Red_Kamen_05);
-            Reds.Add(Red_Kamen_06);
-            Reds.Add(Red_Kamen_07);
-            Reds.Add(Red_Kamen_08);
-            Reds.Add(Red_Kamen_09);
-            Reds.Add(Red_Kamen_10);
-            Reds.Add(Red_Kamen_11);
-            Reds.Add(Red_Kamen_12);
+            int novyRow = Grid.GetRow(field);
+            int novyColum = Grid.GetColumn(field);
 
-            Blues.Add(Blue_Kamen_01);
-            Blues.Add(Blue_Kamen_02);
-            Blues.Add(Blue_Kamen_03);
-            Blues.Add(Blue_Kamen_04);
-            Blues.Add(Blue_Kamen_05);
-            Blues.Add(Blue_Kamen_06);
-            Blues.Add(Blue_Kamen_07);
-            Blues.Add(Blue_Kamen_08);
-            Blues.Add(Blue_Kamen_09);
-            Blues.Add(Blue_Kamen_10);
-            Blues.Add(Blue_Kamen_11);
-            Blues.Add(Blue_Kamen_12);
-        } //zápis kamenů do listů
+            string puvodniRadek = "", novyRadek = "";
 
-    }
+            if (puvodniRow == 1) puvodniRadek = "H";
+            else if (puvodniRow == 2) puvodniRadek = "G";
+            else if (puvodniRow == 3) puvodniRadek = "F";
+            else if (puvodniRow == 4) puvodniRadek = "E";
+            else if (puvodniRow == 5) puvodniRadek = "D";
+            else if (puvodniRow == 6) puvodniRadek = "C";
+            else if (puvodniRow == 7) puvodniRadek = "B";
+            else if (puvodniRow == 8) puvodniRadek = "A";
 
-    public class Game
-    {
-        public Game()
-        {
+            if (novyRow == 1) novyRadek = "H";
+            else if (novyRow == 2) novyRadek = "G";
+            else if (novyRow == 3) novyRadek = "F";
+            else if (novyRow == 4) novyRadek = "E";
+            else if (novyRow == 5) novyRadek = "D";
+            else if (novyRow == 6) novyRadek = "C";
+            else if (novyRow == 7) novyRadek = "B";
+            else if (novyRow == 8) novyRadek = "A";
+
+            string vypis = $"{color,-4} - {puvodniRadek}{puvodniColum} > {novyRadek}{novyColum}" + Environment.NewLine;
+
+
+            FormGame.textBoxLog.Text = vypis + FormGame.textBoxLog.Text;
 
         }
-
-
     }
 }
