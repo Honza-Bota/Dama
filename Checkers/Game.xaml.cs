@@ -17,12 +17,13 @@ using System.IO;
 namespace Checkers
 {
     #region Úkoly
-    // zprovoznit dámu (krok/skok)
+    // vypnout zvuky message boxů
     // oběktově orientovaný kód
     // implementovat testy (3)
     // update na github
     //
     // dodělat více tahů kamenem
+    // všechny pravidla dámy
     //
     // dodělat AI
     // dokončit zbylé funkce
@@ -258,6 +259,8 @@ namespace Checkers
 
                     if (barva == "Blue" &&
                         poziceStart.X != poziceCíl.X &&
+                        Math.Abs(poziceCíl.X - poziceStart.X) == 2 &&
+                        poziceCíl.Y != poziceStart.Y &&
                         (kamenNepritel.Y == poziceStart.Y + 1 || kamenNepritel.Y == poziceStart.Y - 1) &&
                         (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) &&
                         (poziceCíl.Y == kamenNepritel.Y + 1 || poziceCíl.Y == kamenNepritel.Y - 1) &&
@@ -273,6 +276,8 @@ namespace Checkers
 
                     if (barva == "Red" &&
                         poziceStart.X != poziceCíl.X &&
+                        Math.Abs(poziceCíl.X - poziceStart.X) == 2 &&
+                        poziceCíl.Y != poziceStart.Y &&
                         (kamenNepritel.Y == poziceStart.Y - 1 || kamenNepritel.Y == poziceStart.Y + 1 ) &&
                         (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) &&
                         (poziceCíl.Y == kamenNepritel.Y - 1 || poziceCíl.Y == kamenNepritel.Y + 1) &&
