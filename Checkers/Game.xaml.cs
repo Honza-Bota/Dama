@@ -17,11 +17,9 @@ using System.IO;
 namespace Checkers
 {
     #region Úkoly
-    // implementovat testy (3)
-    // update na github
-    //
     // dodělat více tahů kamenem
     // všechny pravidla dámy
+    // update na github
     //
     // dodělat AI
     // dokončit zbylé funkce
@@ -79,7 +77,7 @@ namespace Checkers
 
     }
 
-    public class Game
+    public static class Game
     {
         static public Window1 FormGame { get; set; } = null;
         static public Button SelectedStone { get; set; } = null;
