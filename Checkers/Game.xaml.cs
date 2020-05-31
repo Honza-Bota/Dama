@@ -90,7 +90,7 @@ namespace Checkers
                     //int puvodniRow = Grid.GetRow(vybranyKamen);
                     //int puvodniColum = Grid.GetColumn(vybranyKamen);
 
-                    Log(vybranyKamen, pole, barva);
+                    Log(pole, barva);
 
                     int novyRow = Grid.GetRow(pole);
                     int novyColum = Grid.GetColumn(pole);
@@ -159,7 +159,7 @@ namespace Checkers
             }
         }
 
-        public void Log(Button kamen, Rectangle pole, string barva)
+        public void Log(Rectangle pole, string barva)
         {
             int puvodniRow = Grid.GetRow(vybranyKamen);
             int puvodniColum = Grid.GetColumn(vybranyKamen);
@@ -605,7 +605,7 @@ namespace Checkers
         public void PoleClick(object sender, MouseButtonEventArgs e)
         {
             Posun((Rectangle)sender);
-        }
+        } //kliknutí na cílové pole
 
         public void RedClick(object sender, RoutedEventArgs e)
         {
@@ -617,7 +617,7 @@ namespace Checkers
             {
                 MessageBox.Show("Na řadě je modrý hráč!", "Špatný tah", MessageBoxButton.OK);
             }
-        }
+        } //kliknutí na červené kameny
 
         public void BlueClick(object sender, RoutedEventArgs e)
         {
@@ -629,7 +629,7 @@ namespace Checkers
             {
                 MessageBox.Show("Na řadě je červený hráč!", "Špatný tah", MessageBoxButton.OK);
             }
-        }
+        } //kliknutí na modré kameny
 
         public void Zapis()
         {
@@ -658,7 +658,17 @@ namespace Checkers
             Blues.Add(Blue_Kamen_10);
             Blues.Add(Blue_Kamen_11);
             Blues.Add(Blue_Kamen_12);
+        } //zápis kamenů do listů
+
+    }
+
+    public class Game
+    {
+        public Game()
+        {
+
         }
+
 
     }
 }
