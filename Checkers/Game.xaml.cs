@@ -17,7 +17,6 @@ using System.IO;
 namespace Checkers
 {
     #region Úkoly
-    // vypnout zvuky message boxů
     // oběktově orientovaný kód
     // implementovat testy (3)
     // update na github
@@ -616,7 +615,7 @@ namespace Checkers
             }
             else
             {
-                MessageBox.Show("Na řadě je modrý hráč!", "Varování", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Na řadě je modrý hráč!", "Špatný tah", MessageBoxButton.OK);
             }
         }
 
@@ -628,7 +627,7 @@ namespace Checkers
             }
             else
             {
-                MessageBox.Show("Na řadě je červený hráč!", "Varování", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Na řadě je červený hráč!", "Špatný tah", MessageBoxButton.OK);
             }
         }
 
