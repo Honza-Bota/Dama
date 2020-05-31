@@ -80,7 +80,7 @@ namespace Checkers
             {
                 string barva = vybranyKamen.Name.Split('_')[0];
 
-                if (//ValidaceSkokuDama(vybranyKamen, pole, barva) ||
+                if (ValidaceSkokuDama(vybranyKamen, pole, barva) ||
                     ValidaceKrokuDama(vybranyKamen,pole,barva) || 
                     ValidaceSkoku(vybranyKamen, pole, barva) ||
                     ValidaceKroku(vybranyKamen, pole, barva))
@@ -231,22 +231,59 @@ namespace Checkers
 
         public bool ValidaceSkokuDama(Button kamen, Rectangle pole, string barva)
         {
+
             Point poziceStart = new Point(Grid.GetColumn(kamen), Grid.GetRow(kamen));
             Point poziceCíl = new Point(Grid.GetColumn(pole), Grid.GetRow(pole));
 
-            if (kamen.Tag.ToString() == "queen" &&
-                Math.Abs(poziceStart.X - poziceCíl.X) == Math.Abs(poziceStart.Y - poziceCíl.Y))
+            bool nalezeno = false;
+
+            foreach (Button item in Reds)
             {
-                if (true)
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
+                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                if (p == poziceCíl) nalezeno = true;
             }
 
+            foreach (Button item in Blues)
+            {
+                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                if (p == poziceCíl) nalezeno = true;
+            }
+
+
+            if (!nalezeno && vybranyKamen.Tag.ToString() == "queen")
+            {
+                for (int i = 0; i < Reds.Count; i++)
+                {
+                    Point kamenNepritel = new Point(Grid.GetColumn(Reds[i]), Grid.GetRow(Reds[i]));
+
+                    if (barva == "Blue" &&
+                        poziceStart.X != poziceCíl.X &&
+                        (kamenNepritel.Y == poziceStart.Y + 1 || kamenNepritel.Y == poziceStart.Y - 1) &&
+                        (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) &&
+                        (poziceCíl.Y == kamenNepritel.Y + 1 || poziceCíl.Y == kamenNepritel.Y - 1) &&
+                        (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
+                    {
+                        Vymazat(vybranyKamen, pole);
+                        return true;
+                    }
+                }
+                for (int i = 0; i < Blues.Count; i++)
+                {
+                    Point kamenNepritel = new Point(Grid.GetColumn(Blues[i]), Grid.GetRow(Blues[i]));
+
+                    if (barva == "Red" &&
+                        poziceStart.X != poziceCíl.X &&
+                        (kamenNepritel.Y == poziceStart.Y - 1 || kamenNepritel.Y == poziceStart.Y + 1 ) &&
+                        (kamenNepritel.X == poziceStart.X + 1 || kamenNepritel.X == poziceStart.X - 1) &&
+                        (poziceCíl.Y == kamenNepritel.Y - 1 || poziceCíl.Y == kamenNepritel.Y + 1) &&
+                        (poziceCíl.X == kamenNepritel.X - 1 || poziceCíl.X == kamenNepritel.X + 1))
+                    {
+                        Vymazat(vybranyKamen, pole);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public bool ValidaceKrokuDama(Button kamen, Rectangle pole, string barva)
