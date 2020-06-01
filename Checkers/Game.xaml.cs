@@ -158,7 +158,7 @@ namespace Checkers
 
                     Info();
 
-                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"../../Sounds/Sliding.wav");
+                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Sliding);
                     //player.Play();
                 }
 
@@ -549,6 +549,8 @@ namespace Checkers
         }
         static public void IsQueen(string color)
         {
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Swooshing);
+
             if (color == "Red" && Grid.GetRow(SelectedStone) == 1 && SelectedStone.Tag.ToString() != "queen")
             {
                 SelectedStone.Content = new Image
@@ -556,7 +558,6 @@ namespace Checkers
                     Source = new BitmapImage(new Uri("../../Images/kamen-red-queen.png", UriKind.Relative))
                 };
 
-                System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"../../Sounds/Swooshing.wav");
                 player.Play();
 
                 SelectedStone.Tag = "queen";
@@ -568,7 +569,6 @@ namespace Checkers
                     Source = new BitmapImage(new Uri("../../Images/kamen-blue-queen.png", UriKind.Relative))
                 };
 
-                System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"../../Sounds/Swooshing.wav");
                 player.Play();
 
                 SelectedStone.Tag = "queen";

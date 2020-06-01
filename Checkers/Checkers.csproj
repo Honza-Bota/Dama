@@ -82,7 +82,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -108,6 +108,12 @@
     <Resource Include="Images\kamen-blue.png" />
     <Resource Include="Images\kamen-red-queen.png" />
     <Resource Include="Images\kamen-red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sounds\Sliding.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sounds\Swooshing.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
