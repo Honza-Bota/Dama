@@ -8,9 +8,9 @@ using System.Windows;
 // sadu atributů. Změnou hodnot těchto atributů se upraví informace
 // přidružené k sestavení.
 [assembly: AssemblyTitle("Checkers")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyDescription("Gameing program (Checkers on PC)")]
+[assembly: AssemblyConfiguration("Basic")]
+[assembly: AssemblyCompany("Jan Bota")]
 [assembly: AssemblyProduct("Checkers")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

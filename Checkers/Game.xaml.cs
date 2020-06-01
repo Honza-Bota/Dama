@@ -157,6 +157,9 @@ namespace Checkers
                     SelectedStone = null;
 
                     Info();
+
+                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"../../Sounds/Sliding.wav");
+                    //player.Play();
                 }
 
             }
@@ -552,6 +555,10 @@ namespace Checkers
                 {
                     Source = new BitmapImage(new Uri("../../Images/kamen-red-queen.png", UriKind.Relative))
                 };
+
+                System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"../../Sounds/Swooshing.wav");
+                player.Play();
+
                 SelectedStone.Tag = "queen";
             }
             if (color == "Blue" && Grid.GetRow(SelectedStone) == 8 && SelectedStone.Tag.ToString() != "queen")
@@ -560,6 +567,10 @@ namespace Checkers
                 {
                     Source = new BitmapImage(new Uri("../../Images/kamen-blue-queen.png", UriKind.Relative))
                 };
+
+                System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"../../Sounds/Swooshing.wav");
+                player.Play();
+
                 SelectedStone.Tag = "queen";
             }
         }
