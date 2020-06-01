@@ -82,7 +82,7 @@
                 </RadialGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="ButNapoveda" Content="Nápověda" Grid.Row="5" Grid.Column="1" Margin="5,-15,5,20" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" IsEnabled="False" Click="ButNapoveda_Click">
+        <Button x:Name="ButNapoveda" Content="Nápověda" Grid.Row="5" Grid.Column="1" Margin="5,-15,5,20" BorderBrush="Black" FontWeight="Bold" FontSize="20" Cursor="Hand" RenderTransformOrigin="0.5,0.5" BorderThickness="4" ClipToBounds="True" Click="ButNapoveda_Click">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="White" Offset="0"/>

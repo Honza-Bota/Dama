@@ -19,6 +19,7 @@ namespace Checkers
     #region Úkoly
     // dodělat více tahů kamenem
     // všechny pravidla dámy
+    // optimalizace kódu
     // update na github
     //
     // dodělat AI
@@ -45,7 +46,7 @@ namespace Checkers
 
         public void ButKonec_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBoxResult.OK == MessageBox.Show("Opravdu chcete hru ukončit?", "Dotaz", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification))
+            if (MessageBoxResult.Yes == MessageBox.Show("Opravdu chcete hru ukončit?", "Dotaz", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes, MessageBoxOptions.ServiceNotification))
                 this.Close();
         }
         public void PoleClick(object sender, MouseButtonEventArgs e)
@@ -618,11 +619,13 @@ namespace Checkers
             if (Game.Reds.Count == 0)
             {
                 MessageBox.Show("Vyhrál modrý!!", "Výhra", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+
                 FormGame.Close();
             }
             else if (Game.Blues.Count == 0)
             {
                 MessageBox.Show("Vyhrál červený!!", "Výhra", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+
                 FormGame.Close();
             }
         }
