@@ -21,27 +21,29 @@ namespace Checkers
     // všechny pravidla dámy
     // optimalizace kódu
     // update na github
-    //
+    //----------------------------
     // dodělat AI
     // dokončit zbylé funkce
     #endregion
 
     public partial class Window1 : Window
     {
+        Game Hra; 
         public Window1()
         {
             InitializeComponent();
-            Game.FormGame = this;
-            Game.LoadStones();
+            Hra = new Game();
+            Hra.FormGame = this;
+            Hra.LoadStones();
+            
+            Hra.Timer.Interval = TimeSpan.FromSeconds(1);
+            Hra.Timer.Tick += Hra.Timer_Tick;
+            Hra.Timer.Start(); 
 
-            Game.Timer.Interval = TimeSpan.FromSeconds(1);
-            Game.Timer.Tick += Game.Timer_Tick;
-            Game.Timer.Start(); 
-
-            labelHrac1veHre.Content = Game.Reds.Count;
-            labelHrac2veHre.Content = Game.Blues.Count;
-            labelHrac1vyrazeno.Content = 12 - Game.Reds.Count;
-            labelHrac2vyrazeno.Content = 12 - Game.Blues.Count;
+            labelHrac1veHre.Content = Hra.Reds.Count;
+            labelHrac2veHre.Content = Hra.Blues.Count;
+            labelHrac1vyrazeno.Content = 12 - Hra.Reds.Count;
+            labelHrac2vyrazeno.Content = 12 - Hra.Blues.Count;
         }
 
         public void ButKonec_Click(object sender, RoutedEventArgs e)
@@ -51,13 +53,13 @@ namespace Checkers
         }
         public void PoleClick(object sender, MouseButtonEventArgs e)
         {
-            Game.Move((Rectangle)sender);
+            Hra.Move((Rectangle)sender);
         } 
         public void RedClick(object sender, RoutedEventArgs e)
         {
-            if (Game.Turn % 2 == 0)
+            if (Hra.Turn % 2 == 0)
             {
-                Game.StoneClick(sender);
+                Hra.StoneClick(sender);
             }
             else
             {
@@ -66,9 +68,9 @@ namespace Checkers
         } 
         public void BlueClick(object sender, RoutedEventArgs e)
         {
-            if (Game.Turn % 2 == 1)
+            if (Hra.Turn % 2 == 1)
             {
-                Game.StoneClick(sender);
+                Hra.StoneClick(sender);
             }
             else
             {
@@ -78,17 +80,17 @@ namespace Checkers
 
     }
 
-    public static class Game
+    public  class Game
     {
-        static public Window1 FormGame { get; set; } = null;
-        static public Button SelectedStone { get; set; } = null;
-        static public List<Button> Reds { get; set; } = new List<Button>();
-        static public List<Button> Blues { get; set; } = new List<Button>();
-        static public DispatcherTimer Timer { get; set; } = new DispatcherTimer();
-        static public TimeSpan GameTime { get; set; } = new TimeSpan();
-        static public int Turn { get; set; } = 0;
+        public Window1 FormGame { get; set; } = null;
+        public Button SelectedStone { get; set; } = null;
+        public List<Button> Reds { get; set; } = new List<Button>();
+        public List<Button> Blues { get; set; } = new List<Button>();
+        public DispatcherTimer Timer { get; set; } = new DispatcherTimer();
+        public TimeSpan GameTime { get; set; } = new TimeSpan();
+        public int Turn { get; set; } = 0;
 
-        static public void StoneClick(object sender)
+        public void StoneClick(object sender)
         {
             try { SelectedStone.Background = null; }
 #pragma warning disable CS0168 // Proměnná je deklarovaná, ale nikdy se nepoužívá.
@@ -97,7 +99,7 @@ namespace Checkers
             SelectedStone = (Button)sender;
             SelectedStone.Background = Brushes.LimeGreen;
         }
-        static public void Move(Rectangle field)
+        public void Move(Rectangle field)
         {
             if (SelectedStone != null)
             {
@@ -165,7 +167,7 @@ namespace Checkers
 
             }
         }
-        static public void Delete(Button stone, Rectangle field)
+        public void Delete(Button stone, Rectangle field)
         {
             Point skoceny;
 
@@ -199,7 +201,7 @@ namespace Checkers
             }
 
         }
-        static public bool ValidationJumpQueen(Button stone, Rectangle field, string color)
+        public bool ValidationJumpQueen(Button stone, Rectangle field, string color)
         {
 
             Point poziceStart = new Point(Grid.GetColumn(stone), Grid.GetRow(stone));
@@ -259,7 +261,7 @@ namespace Checkers
             }
             return false;
         }
-        static public bool ValidationMoveQueen(Button stone, Rectangle field, string color)
+        public bool ValidationMoveQueen(Button stone, Rectangle field, string color)
         {
 
             Point poziceStart = new Point(Grid.GetColumn(stone), Grid.GetRow(stone));
@@ -442,7 +444,7 @@ namespace Checkers
             //    return volno; 
             #endregion
         }
-        static public bool ValidationMove(Button stone, Rectangle field, string color)
+        public bool ValidationMove(Button stone, Rectangle field, string color)
         {
             Point poziceStart = new Point(Grid.GetColumn(stone), Grid.GetRow(stone));
             Point poziceCíl = new Point(Grid.GetColumn(field), Grid.GetRow(field));
@@ -493,7 +495,7 @@ namespace Checkers
                 return mozno;
             }
         }
-        static public bool ValidationJump(Button stone, Rectangle field, string color)
+        public bool ValidationJump(Button stone, Rectangle field, string color)
         {
             Point poziceStart = new Point(Grid.GetColumn(stone), Grid.GetRow(stone));
             Point poziceCíl = new Point(Grid.GetColumn(field), Grid.GetRow(field));
@@ -548,7 +550,7 @@ namespace Checkers
             }
             return false;
         }
-        static public void IsQueen(string color)
+        public void IsQueen(string color)
         {
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Swooshing);
 
@@ -576,63 +578,67 @@ namespace Checkers
             }
         }
 
-        static public void Timer_Tick(object sender, EventArgs e)
+        public void Timer_Tick(object sender, EventArgs e)
         {
-            FormGame.labelCasUkazatel.Content = Game.GameTime;
-            Game.GameTime += TimeSpan.FromSeconds(1);
+            FormGame.labelCasUkazatel.Content = GameTime;
+            GameTime += TimeSpan.FromSeconds(1);
         }
-        static public void LoadStones()
+        public void LoadStones()
         {
-            Game.Reds.Add(FormGame.Red_Kamen_01);
-            Game.Reds.Add(FormGame.Red_Kamen_02);
-            Game.Reds.Add(FormGame.Red_Kamen_03);
-            Game.Reds.Add(FormGame.Red_Kamen_04);
-            Game.Reds.Add(FormGame.Red_Kamen_05);
-            Game.Reds.Add(FormGame.Red_Kamen_06);
-            Game.Reds.Add(FormGame.Red_Kamen_07);
-            Game.Reds.Add(FormGame.Red_Kamen_08);
-            Game.Reds.Add(FormGame.Red_Kamen_09);
-            Game.Reds.Add(FormGame.Red_Kamen_10);
-            Game.Reds.Add(FormGame.Red_Kamen_11);
-            Game.Reds.Add(FormGame.Red_Kamen_12);
+            Reds.Add(FormGame.Red_Kamen_01);
+            Reds.Add(FormGame.Red_Kamen_02);
+            Reds.Add(FormGame.Red_Kamen_03);
+            Reds.Add(FormGame.Red_Kamen_04);
+            Reds.Add(FormGame.Red_Kamen_05);
+            Reds.Add(FormGame.Red_Kamen_06);
+            Reds.Add(FormGame.Red_Kamen_07);
+            Reds.Add(FormGame.Red_Kamen_08);
+            Reds.Add(FormGame.Red_Kamen_09);
+            Reds.Add(FormGame.Red_Kamen_10);
+            Reds.Add(FormGame.Red_Kamen_11);
+            Reds.Add(FormGame.Red_Kamen_12);
 
-            Game.Blues.Add(FormGame.Blue_Kamen_01);
-            Game.Blues.Add(FormGame.Blue_Kamen_02);
-            Game.Blues.Add(FormGame.Blue_Kamen_03);
-            Game.Blues.Add(FormGame.Blue_Kamen_04);
-            Game.Blues.Add(FormGame.Blue_Kamen_05);
-            Game.Blues.Add(FormGame.Blue_Kamen_06);
-            Game.Blues.Add(FormGame.Blue_Kamen_07);
-            Game.Blues.Add(FormGame.Blue_Kamen_08);
-            Game.Blues.Add(FormGame.Blue_Kamen_09);
-            Game.Blues.Add(FormGame.Blue_Kamen_10);
-            Game.Blues.Add(FormGame.Blue_Kamen_11);
-            Game.Blues.Add(FormGame.Blue_Kamen_12);
+            Blues.Add(FormGame.Blue_Kamen_01);
+            Blues.Add(FormGame.Blue_Kamen_02);
+            Blues.Add(FormGame.Blue_Kamen_03);
+            Blues.Add(FormGame.Blue_Kamen_04);
+            Blues.Add(FormGame.Blue_Kamen_05);
+            Blues.Add(FormGame.Blue_Kamen_06);
+            Blues.Add(FormGame.Blue_Kamen_07);
+            Blues.Add(FormGame.Blue_Kamen_08);
+            Blues.Add(FormGame.Blue_Kamen_09);
+            Blues.Add(FormGame.Blue_Kamen_10);
+            Blues.Add(FormGame.Blue_Kamen_11);
+            Blues.Add(FormGame.Blue_Kamen_12);
         }
-        static public void Info()
+        public void Info()
         {
-            FormGame.labelHrac1veHre.Content = Game.Reds.Count;
-            FormGame.labelHrac2veHre.Content = Game.Blues.Count;
-            FormGame.labelHrac1vyrazeno.Content = 12 - Game.Reds.Count;
-            FormGame.labelHrac2vyrazeno.Content = 12 - Game.Blues.Count;
+            FormGame.labelHrac1veHre.Content = Reds.Count;
+            FormGame.labelHrac2veHre.Content = Blues.Count;
+            FormGame.labelHrac1vyrazeno.Content = 12 - Reds.Count;
+            FormGame.labelHrac2vyrazeno.Content = 12 - Blues.Count;
 
-            if (Game.Reds.Count == 0)
+            if (Reds.Count == 0)
             {
                 MessageBox.Show("Vyhrál modrý!!", "Výhra", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
 
+                MainWindow Lobby = new MainWindow();
+                Lobby.Show();
                 FormGame.Close();
             }
-            else if (Game.Blues.Count == 0)
+            else if (Blues.Count == 0)
             {
                 MessageBox.Show("Vyhrál červený!!", "Výhra", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-
+                
+                MainWindow Lobby = new MainWindow();
+                Lobby.Show();
                 FormGame.Close();
             }
         }
-        static public void Log(Rectangle field, string color)
+        public void Log(Rectangle field, string color)
         {
-            int puvodniRow = Grid.GetRow(Game.SelectedStone);
-            int puvodniColum = Grid.GetColumn(Game.SelectedStone);
+            int puvodniRow = Grid.GetRow(SelectedStone);
+            int puvodniColum = Grid.GetColumn(SelectedStone);
 
             int novyRow = Grid.GetRow(field);
             int novyColum = Grid.GetColumn(field);
