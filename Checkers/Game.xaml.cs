@@ -80,7 +80,7 @@ namespace Checkers
 
     }
 
-    public  class Game
+    public class Game
     {
         public Window1 FormGame { get; set; } = null;
         public Button SelectedStone { get; set; } = null;
@@ -93,9 +93,7 @@ namespace Checkers
         public void StoneClick(object sender)
         {
             try { SelectedStone.Background = null; }
-#pragma warning disable CS0168 // Proměnná je deklarovaná, ale nikdy se nepoužívá.
-            catch (Exception err) { } //zde občas nastává chyba, je zakázána pro funknost, v předchozí verzi visual studia bez problému
-#pragma warning restore CS0168 // Proměnná je deklarovaná, ale nikdy se nepoužívá.
+            catch (Exception) { } //zde občas nastává chyba, je zakázána pro funkčnost, v předchozí verzi visual studia bez problému
             SelectedStone = (Button)sender;
             SelectedStone.Background = Brushes.LimeGreen;
         }
@@ -209,18 +207,7 @@ namespace Checkers
 
             bool nalezeno = false;
 
-            foreach (Button item in Reds)
-            {
-                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                if (p == poziceCíl) nalezeno = true;
-            }
-
-            foreach (Button item in Blues)
-            {
-                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                if (p == poziceCíl) nalezeno = true;
-            }
-
+            nalezeno = Occupied(poziceCíl);
 
             if (!nalezeno && SelectedStone.Tag.ToString() == "queen")
             {
@@ -271,25 +258,8 @@ namespace Checkers
 
             if (SelectedStone.Tag.ToString() == "queen")
             {
-                foreach (Button item in Reds)
-                {
-                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                    if (p == poziceCíl)
-                    {
-                        mozno = false;
-                        return mozno;
-                    }
-                }
-
-                foreach (Button item in Blues)
-                {
-                    Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                    if (p == poziceCíl)
-                    {
-                        mozno = false;
-                        return mozno;
-                    }
-                }
+                mozno = Occupied(poziceCíl) == true ? false : true;
+                if (mozno == false) return mozno;
 
                 if (Math.Abs(poziceCíl.Y - poziceStart.Y) == 1 &&
                     (poziceCíl.X - 1 == poziceStart.X || poziceCíl.X + 1 == poziceStart.X))
@@ -451,25 +421,8 @@ namespace Checkers
 
             bool mozno = false;
 
-            foreach (Button item in Reds)
-            {
-                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                if (p == poziceCíl)
-                {
-                    mozno = false;
-                    return mozno;
-                }
-            }
-
-            foreach (Button item in Blues)
-            {
-                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                if (p == poziceCíl)
-                {
-                    mozno = false;
-                    return mozno;
-                }
-            }
+            mozno = Occupied(poziceCíl) == true ? false : true;
+            if (mozno == false) return mozno;
 
             if (Math.Abs(poziceCíl.Y - poziceStart.Y) == 1 &&
                 poziceCíl.Y < poziceStart.Y &&
@@ -502,18 +455,7 @@ namespace Checkers
 
             bool nalezeno = false;
 
-            foreach (Button item in Reds)
-            {
-                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                if (p == poziceCíl) nalezeno = true;
-            }
-
-            foreach (Button item in Blues)
-            {
-                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
-                if (p == poziceCíl) nalezeno = true;
-            }
-
+            nalezeno = Occupied(poziceCíl);
 
             if (!nalezeno)
             {
@@ -578,6 +520,24 @@ namespace Checkers
             }
         }
 
+        public bool Occupied(Point poziceCíl)
+        {
+            bool nalezeno = false;
+
+            foreach (Button item in Reds)
+            {
+                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                if (p == poziceCíl) nalezeno = true;
+            }
+
+            foreach (Button item in Blues)
+            {
+                Point p = new Point(Grid.GetColumn(item), Grid.GetRow(item));
+                if (p == poziceCíl) nalezeno = true;
+            }
+
+            return nalezeno;
+        }
         public void Timer_Tick(object sender, EventArgs e)
         {
             FormGame.labelCasUkazatel.Content = GameTime;
